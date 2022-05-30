@@ -55,3 +55,20 @@ export async function getCustomerById(req, res) {
     console.log("erro ao pegar o cliente pelo id", e);
   }
 }
+
+export async function updateCustomer(req, res) {
+  const { name, phone, cpf, birthday } = req.body;
+  const { id } = req.params;
+  try {
+    const result = await db.query(
+      `UPDATE customers 
+          SET name = '${name}', phone = '${phone}', cpf = '${cpf}', birthday = '${birthday}'
+          WHERE id = ${id}
+          `
+    );
+    res.sendStatus(200);
+  } catch (e) {
+    console.log("erro ao atualizar cadastro", e);
+    res.status(500).send(e);
+  }
+}
