@@ -37,3 +37,21 @@ export async function getCustomers(req, res) {
     console.log("erro ao pegar clientes", e);
   }
 }
+
+export async function getCustomerById(req, res) {
+  const { id } = req.params;
+  try {
+    const costumer = await db.query(
+      `SELECT * FROM customers
+            WHERE customers.id = $1
+            `,
+      [id]
+    );
+
+    if (!costumer.rows[0]) return res.sendStatus(404);
+    res.status(200).send(costumer.rows[0]);
+  } catch (e) {
+    res.status(500).send(e);
+    console.log("erro ao pegar o cliente pelo id", e);
+  }
+}
