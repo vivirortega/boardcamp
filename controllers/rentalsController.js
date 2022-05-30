@@ -71,3 +71,15 @@ export async function postRentals(req, res) {
     res.sendStatus(500);
   }
 }
+
+export async function deleteRentals(req, res) {
+  const { id } = req.params;
+  console.log({id});
+  try {
+    const remove = await db.query(`DELETE FROM rentals WHERE id = $1`, [id]);
+    res.sendStatus(200);
+  } catch (e) {
+    console.log("erro ao deletar aluguel", e);
+    res.sendStatus(500);
+  }
+}
