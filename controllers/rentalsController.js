@@ -1,4 +1,5 @@
 import db from "../database/db.js";
+import dayjs from "dayjs";
 
 export async function getRentals(req, res) {
   try {
@@ -74,12 +75,48 @@ export async function postRentals(req, res) {
 
 export async function deleteRentals(req, res) {
   const { id } = req.params;
-  console.log({id});
+  console.log({ id });
   try {
     const remove = await db.query(`DELETE FROM rentals WHERE id = $1`, [id]);
     res.sendStatus(200);
   } catch (e) {
     console.log("erro ao deletar aluguel", e);
+    res.sendStatus(500);
+  }
+}
+
+export async function returnRentals(req, res) {
+  const id = req.params.id;
+  console.log({id});
+  const returnDate = dayjs().format("YYYY-MM-DD");
+  let delayFee = 0;
+
+  try {
+    const returnRental = await db.query(
+      `SELECT rentals.*, games."pricePerDay" 
+          FROM rentals 
+          JOIN games 
+              ON rentals."gameId" = games.id 
+          WHERE rentals.id = $1`,
+      [id]
+    );
+
+    const rentDate = dayjs(returnRental.rows[0].rentDate);
+    const dateDif = rentDate.diff(returnDate, "day");
+
+    if (dateDif > returnRental.rows[0].daysRented) {
+      delayFee =
+        (dateDif - returnRental.rows[0].daysRented) *
+        returnRental.rows[0].pricePerDay;
+    }
+
+    const updateRentals = await db.query(
+      `UPDATE rentals SET ("returnDate", "delayFee") = ( $1, $2 ) WHERE id = $3;`,
+      [returnDate, delayFee, id]
+    );
+    return res.sendStatus(200);
+  } catch (e) {
+    console.log("erro ao retornar aluguel", e);
     res.sendStatus(500);
   }
 }
