@@ -17,13 +17,6 @@
 <img src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E"/>
   
 </div>
-<h2>Deploy with:</h2>
-<div align="center">
-  <br>
-  <p>⚔️</p>
-    <a href="https://boardcamp-proj.herokuapp.com/">BoardcampAPI</a></p>
-  <img src="https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white"/>
-</div>
 
 <h2>How to run:</h2>
 <h3>Clone the repository:</h3>
@@ -54,3 +47,11 @@ bash ./create-database
 ```
 $ npm run start
 ```
+
+<h2>Deploy with:</h2>
+<div align="center">
+  <br>
+  <p>⚔️</p>
+    <a href="https://boardcamp-proj.herokuapp.com/">BoardcampAPI</a></p>
+  <img src="https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white"/>
+</div>
