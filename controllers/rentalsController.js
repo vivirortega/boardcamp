@@ -42,3 +42,32 @@ export async function getRentals(req, res) {
     return res.sendStatus(500);
   }
 }
+
+export async function postRentals(req, res) {
+  const date = new Date();
+  const { customerId, gameId, daysRented } = req.body;
+
+  try {
+    const price = await db.query(
+      `
+          SELECT * from games WHERE id = $1
+      `,
+      [gameId]
+    );
+    const originalPrice = price.rows[0].pricePerDay * daysRented;
+    const rentDate =
+      date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+
+    await db.query(
+      `
+          INSERT INTO RENTALS ("customerId", "gameId", "daysRented", "rentDate", "originalPrice", "returnDate", "delayFee")
+          VALUES ($1, $2, $3, $4, $5, $6, $7)
+      `,
+      [customerId, gameId, daysRented, rentDate, originalPrice, null, null]
+    );
+    res.sendStatus(201);
+  } catch (e) {
+    console.log("erro ao postar alugueis", e);
+    res.sendStatus(500);
+  }
+}
