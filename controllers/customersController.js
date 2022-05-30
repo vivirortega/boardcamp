@@ -18,3 +18,22 @@ export async function postCustomers(req, res) {
     console.log("erro ao criar cliente", e);
   }
 }
+
+export async function getCustomers(req, res) {
+  const { cpf } = req.query;
+  try {
+    const customers = !cpf
+      ? await db.query(`SELECT * FROM customers`)
+      : await db.query(
+          `SELECT *
+      FROM customers
+      WHERE customers.cpf LIKE $1`,
+          [`${cpf}%`]
+        );
+
+    res.status(200).send(customers.rows);
+  } catch (e) {
+    res.status(500).send(e);
+    console.log("erro ao pegar clientes", e);
+  }
+}
