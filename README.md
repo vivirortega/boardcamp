@@ -22,13 +22,13 @@
 <h3>Clone the repository:</h3>
 
 ```
-$ git clone https://github.com/unverzed/boardcamp:git
+$ git clone https://github.com/unverzed/boardcamp.git
 ```
 
 <h3>Install the dependencies:</h3>
 
 ```
-$npm i
+$ npm i
 ```
 <h3>Create database:</h3>
 
@@ -45,7 +45,7 @@ bash ./create-database
 <h3>Initializing the API:</h3>
 
 ```
-$ npm run start
+$ node index.js
 ```
 
 <h2>Deploy with:</h2>
